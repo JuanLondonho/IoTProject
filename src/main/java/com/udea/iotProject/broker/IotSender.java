@@ -17,7 +17,7 @@ public class IotSender {
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void send(String target, byte[] message) {
-    	this.template.convertAndSend("amq.topic", target, message);
+        this.template.convertAndSend("amq.topic", target, message);
         System.out.println("Sent:" + new String(message));
     }
 }

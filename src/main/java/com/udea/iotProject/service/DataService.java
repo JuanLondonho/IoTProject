@@ -28,6 +28,10 @@ public class DataService {
     public List<Data> findAllDevices(){
         return dataRepository.findAll();
     }
+
+    public Data findCurrentStatus(int id){
+    	return dataRepository.findCurrentStatus(id);
+	}
     
     
     public List<Data> findByDate(String dateIn, String dateE){
@@ -49,35 +53,27 @@ public class DataService {
     	String lev="c";
         return dataRepository.findByNoiseSignal(lev);   
     }
-    
-   
+
+
     public void processMessage(String message) {
-    	
-    	if(message.startsWith("c")) {
-    		String[] parts = message.split("c");
-    		Data dataModel = new Data();
-        	LocalDateTime date= LocalDateTime.now();
-        	dataModel.setDate(date);
-    		System.out.println("FECHA:"+dataModel.getDate());
-    		Integer noiseLevel =Integer.parseInt(parts[1]);
-    		dataModel.setNoiseLevel(noiseLevel);
-    		dataModel.setNoiseSignal("c");
-    		System.out.println("RUIDO:"+dataModel.getNoiseLevel()+"\n");	
-    		//System.out.println("\n");
-    		dataRepository.save(dataModel);
-    		
-    	}else {
     	
     	Data dataModel = new Data();
     	LocalDateTime date= LocalDateTime.now();
     	dataModel.setDate(date);
-		System.out.println("FECHA:"+dataModel.getDate());
-		Integer noiseLevel =Integer.parseInt(message);
-		dataModel.setNoiseLevel(noiseLevel);
-		dataModel.setNoiseSignal("");
-		System.out.println("RUIDO:"+dataModel.getNoiseLevel()+"\n");
-		//System.out.println("\n");
-		dataRepository.save(dataModel);
+    	String[] parts = message.split("/");
+    	dataModel.setId(Integer.parseInt(parts[0]));
+		dataModel.setNoiseLevel(Integer.parseInt(parts[1]));
+		dataModel.setTemperature(Integer.parseInt(parts[2]));
+		dataModel.setHumidity(Integer.parseInt(parts[3]));
+		dataModel.setLighting(Integer.parseInt(parts[4]));
+		if(Integer.parseInt(parts[1]) > 1000) {
+			dataModel.setStatus("ALTO");
+		}else if (Integer.parseInt(parts[1]) > 700) {
+			dataModel.setStatus("MEDIO");
+		}else{
+			dataModel.setStatus("BAJO");
 		}
+
+		dataRepository.save(dataModel);
     }
 }
