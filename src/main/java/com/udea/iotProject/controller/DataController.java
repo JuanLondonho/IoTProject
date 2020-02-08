@@ -51,16 +51,14 @@ public class DataController {
    public List<Data> getAllDateNoiseLevel(@RequestParam (name="date1")String date1, @RequestParam (name="date2") String date2) {	
 	   return dataService.findByDateNoise(date1, date2);
     }
-   
-   @GetMapping(path="/noiseLevel")
-   public List<Data> getAllDateLevel() {	
-	   return dataService.findByLevel();
-    }
- 
-   
+
     @PostMapping(path="/send")
     public void sendMessage(@RequestParam (name="message") String message) {
        dataService.sendMessage( message);
   	}
-     
+
+  	@GetMapping(path = "/currentStatus")
+    public List<Data> getCurrentStatus(@RequestParam (name="deviceName") String deviceName){
+        return dataService.findCurrentStatus(deviceName);
+    }
 }

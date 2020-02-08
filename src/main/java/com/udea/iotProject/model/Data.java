@@ -1,7 +1,6 @@
 package com.udea.iotProject.model;
 
 
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -14,9 +13,11 @@ import javax.persistence.Table;
 @Table(name = "data")
 public class Data {
     @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Id
+    private String deviceName;
+
     private  LocalDateTime date;
 	
     private Integer noiseLevel;
@@ -83,6 +84,14 @@ public class Data {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 }
 

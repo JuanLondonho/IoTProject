@@ -14,12 +14,8 @@ public interface DataRepository extends JpaRepository<Data,Integer> {
 	 List<Data>findByDateBetweenAndNoiseLevelGreaterThan(LocalDateTime date1, LocalDateTime date2, int noiseL);
 	 
 	 List<Data>findByDateBetween(LocalDateTime date1, LocalDateTime date2);
-	 
-	 List<Data>findByNoiseSignal(String level);
 
-	 @Query(value = "select * from Data where id = ?1 order by desc limit 1", nativeQuery = true)
-	 Data findCurrentStatus(int id);
-
-
+	 @Query(value = "SELECT * FROM data WHERE device_name = ?1 AND date = (SELECT MAX(date) FROM data WHERE device_name = ?1)", nativeQuery = true)
+	 List<Data> findCurrentStatus(String deviceName);
 
 }

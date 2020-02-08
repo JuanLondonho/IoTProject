@@ -29,8 +29,8 @@ public class DataService {
         return dataRepository.findAll();
     }
 
-    public Data findCurrentStatus(int id){
-    	return dataRepository.findCurrentStatus(id);
+    public List<Data> findCurrentStatus(String deviceName){
+    	return dataRepository.findCurrentStatus(deviceName);
 	}
     
     
@@ -48,11 +48,6 @@ public class DataService {
     	LocalDateTime date2 = LocalDateTime.parse(dateE, formatter);
         return dataRepository.findByDateBetweenAndNoiseLevelGreaterThan(date1, date2, noise);   
     }
-    
-    public List<Data> findByLevel(){
-    	String lev="c";
-        return dataRepository.findByNoiseSignal(lev);   
-    }
 
 
     public void processMessage(String message) {
@@ -61,7 +56,7 @@ public class DataService {
     	LocalDateTime date= LocalDateTime.now();
     	dataModel.setDate(date);
     	String[] parts = message.split("/");
-    	dataModel.setId(Integer.parseInt(parts[0]));
+    	dataModel.setDeviceName(parts[0]);
 		dataModel.setNoiseLevel(Integer.parseInt(parts[1]));
 		dataModel.setTemperature(Integer.parseInt(parts[2]));
 		dataModel.setHumidity(Integer.parseInt(parts[3]));
