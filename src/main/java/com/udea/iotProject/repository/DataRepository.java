@@ -16,6 +16,9 @@ public interface DataRepository extends JpaRepository<Data,Integer> {
 	 List<Data>findByDateBetween(LocalDateTime date1, LocalDateTime date2);
 
 	 @Query(value = "SELECT * FROM data WHERE device_name = ?1 AND date = (SELECT MAX(date) FROM data WHERE device_name = ?1)", nativeQuery = true)
-	 List<Data> findCurrentStatus(String deviceName);
+	 Data findCurrentStatus(String deviceName);
+
+	 @Query(value = "select distinct device_name from data", nativeQuery = true)
+	String[] findDistinctDevices();
 
 }

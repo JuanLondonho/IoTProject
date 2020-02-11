@@ -1,6 +1,6 @@
 package com.udea.iotProject.controller;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,7 +58,16 @@ public class DataController {
   	}
 
   	@GetMapping(path = "/currentStatus")
-    public List<Data> getCurrentStatus(@RequestParam (name="deviceName") String deviceName){
-        return dataService.findCurrentStatus(deviceName);
+    public List<Data> getCurrentStatus(@RequestParam (name="deviceName") String[] deviceName){
+        List<Data> currentStatus = new ArrayList<>();
+        for(int i = 0; i < deviceName.length; i++){
+            currentStatus.add(dataService.findCurrentStatus(deviceName[i]));
+        }
+        return currentStatus;
+    }
+
+    @GetMapping(path = "/getDeviceNames")
+    public String[] getDeviceNames(){
+        return dataService.findDistinctDevices();
     }
 }

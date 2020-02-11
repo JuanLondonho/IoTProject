@@ -29,7 +29,7 @@ public class DataService {
         return dataRepository.findAll();
     }
 
-    public List<Data> findCurrentStatus(String deviceName){
+    public Data findCurrentStatus(String deviceName){
     	return dataRepository.findCurrentStatus(deviceName);
 	}
     
@@ -48,6 +48,10 @@ public class DataService {
     	LocalDateTime date2 = LocalDateTime.parse(dateE, formatter);
         return dataRepository.findByDateBetweenAndNoiseLevelGreaterThan(date1, date2, noise);   
     }
+
+    public String[] findDistinctDevices(){
+    	return dataRepository.findDistinctDevices();
+	}
 
 
     public void processMessage(String message) {
