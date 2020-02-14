@@ -2,7 +2,9 @@ package com.udea.iotProject.service;
 
 import com.udea.iotProject.broker.IotSender;
 import com.udea.iotProject.model.Data;
+import com.udea.iotProject.model.DeviceStatus;
 import com.udea.iotProject.repository.DataRepository;
+import com.udea.iotProject.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,11 +14,13 @@ import java.util.List;
 @Service
 public class DataService {
 
+	private DeviceRepository deviceRepository;
     private DataRepository dataRepository;
     private IotSender iotSender;
 
-    public DataService(IotSender iotSender, DataRepository dataRepository){
+    public DataService(IotSender iotSender, DataRepository dataRepository, DeviceRepository deviceRepository){
         this.dataRepository = dataRepository;
+        this.deviceRepository = deviceRepository;
         this.iotSender= iotSender;
     }
     
@@ -29,8 +33,8 @@ public class DataService {
         return dataRepository.findAll();
     }
 
-    public Data findCurrentStatus(String deviceName){
-    	return dataRepository.findCurrentStatus(deviceName);
+    public List<DeviceStatus> findCurrentStatus(){
+    	return deviceRepository.deviceStatus();
 	}
     
     
@@ -49,30 +53,39 @@ public class DataService {
         return dataRepository.findByDateBetweenAndNoiseLevelGreaterThan(date1, date2, noise);   
     }
 
-    public String[] findDistinctDevices(){
-    	return dataRepository.findDistinctDevices();
-	}
-
 
     public void processMessage(String message) {
     	
     	Data dataModel = new Data();
+		DeviceStatus device = new DeviceStatus();
     	LocalDateTime date= LocalDateTime.now();
     	dataModel.setDate(date);
+    	device.setDate(date);
     	String[] parts = message.split("/");
     	dataModel.setDeviceName(parts[0]);
+    	device.setDeviceName(parts[0]);
 		dataModel.setNoiseLevel(Integer.parseInt(parts[1]));
+		device.setNoiseLevel(Integer.parseInt(parts[1]));
 		dataModel.setTemperature(Integer.parseInt(parts[2]));
+		device.setTemperature(Integer.parseInt(parts[2]));
 		dataModel.setHumidity(Integer.parseInt(parts[3]));
+		device.setHumidity(Integer.parseInt(parts[3]));
 		dataModel.setLighting(Integer.parseInt(parts[4]));
+		device.setLighting(Integer.parseInt(parts[4]));
+		String status;
 		if(Integer.parseInt(parts[1]) > 1000) {
-			dataModel.setStatus("ALTO");
+			status = "ALTO";
 		}else if (Integer.parseInt(parts[1]) > 700) {
-			dataModel.setStatus("MEDIO");
+			status = "MEDIO";
 		}else{
-			dataModel.setStatus("BAJO");
+			status = "BAJO";
 		}
 
+		dataModel.setStatus(status);
+		device.setStatus(status);
+
 		dataRepository.save(dataModel);
+		deviceRepository.save(device);
+
     }
 }

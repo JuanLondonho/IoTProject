@@ -2,6 +2,7 @@ package com.udea.iotProject.controller;
 
 import java.util.*;
 
+import com.udea.iotProject.model.DeviceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,12 +59,7 @@ public class DataController {
   	}
 
   	@GetMapping(path = "/currentStatus")
-    public List<Data> getCurrentStatus(){
-        String[] deviceName = dataService.findDistinctDevices();
-        List<Data> currentStatus = new ArrayList<>();
-        for(int i = 0; i < deviceName.length; i++){
-            currentStatus.add(dataService.findCurrentStatus(deviceName[i]));
-        }
-        return currentStatus;
+    public List<DeviceStatus> getCurrentStatus(){
+        return dataService.findCurrentStatus();
     }
 }
