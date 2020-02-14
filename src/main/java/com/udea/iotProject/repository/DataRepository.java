@@ -21,4 +21,6 @@ public interface DataRepository extends JpaRepository<Data,Integer> {
 	 @Query(value = "select distinct device_name from data", nativeQuery = true)
 	String[] findDistinctDevices();
 
+
+
 }

@@ -58,16 +58,12 @@ public class DataController {
   	}
 
   	@GetMapping(path = "/currentStatus")
-    public List<Data> getCurrentStatus(@RequestParam (name="deviceName") String[] deviceName){
+    public List<Data> getCurrentStatus(){
+        String[] deviceName = dataService.findDistinctDevices();
         List<Data> currentStatus = new ArrayList<>();
         for(int i = 0; i < deviceName.length; i++){
             currentStatus.add(dataService.findCurrentStatus(deviceName[i]));
         }
         return currentStatus;
-    }
-
-    @GetMapping(path = "/getDeviceNames")
-    public String[] getDeviceNames(){
-        return dataService.findDistinctDevices();
     }
 }
