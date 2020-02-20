@@ -26,6 +26,16 @@ public class DeviceStatus {
 
     private String status;
 
+    private Integer sala;
+
+    public Integer getSala() {
+        return sala;
+    }
+
+    public void setSala(Integer sala) {
+        this.sala = sala;
+    }
+
     public LocalDateTime getDate() {
         return date;
     }

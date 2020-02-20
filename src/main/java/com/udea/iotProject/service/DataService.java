@@ -83,6 +83,7 @@ public class DataService {
 
 		dataModel.setStatus(status);
 		device.setStatus(status);
+		device.setSala(Integer.parseInt(parts[5]));
 
 		dataRepository.save(dataModel);
 		deviceRepository.save(device);
