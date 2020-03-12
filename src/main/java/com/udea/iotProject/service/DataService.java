@@ -28,6 +28,10 @@ public class DataService {
     public void sendMessage(String message) {
         iotSender.send("iot", message.getBytes());
     }
+
+    public void sendPrivateMessage(String device, String message) {
+        iotSender.send(""+device, message.getBytes());
+    }
     
     public List<Data> findAllDevices(){
         return dataRepository.findAll();

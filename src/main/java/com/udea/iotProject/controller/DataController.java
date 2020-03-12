@@ -53,10 +53,23 @@ public class DataController {
 	   return dataService.findByDateNoise(date1, date2);
     }
 
-    @PostMapping(path="/send")
+    @PostMapping(path="/turnOnDevices")
+    public void sendMessage() {
+        dataService.sendMessage("-99");
+
+    }
+
+    @PostMapping(path="/sendGlobalMessage")
     public void sendMessage(@RequestParam (name="message") String message) {
-       dataService.sendMessage( message);
+       dataService.sendMessage(message);
+
   	}
+
+    @PostMapping(path="/sendPrivateMessage")
+    public void sendPrivateMessage(@RequestParam(name="DeviceName") String device, @RequestParam (name="message") String message) {
+        dataService.sendPrivateMessage(device ,message);
+
+    }
 
   	@GetMapping(path = "/currentStatus")
     public List<DeviceStatus> getCurrentStatus(){
