@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class IotSender {
 
-    @Autowired
-    private RabbitTemplate template;
+    //@Autowired
+    //rivate RabbitTemplate template;
 
 
-    @Scheduled(fixedDelay = 1000, initialDelay = 500)
-    public void send(String target, byte[] message) {
-        this.template.convertAndSend("amq.topic", target, message);
-        System.out.println("Sent:" + new String(message));
-    }
+    //@Scheduled(fixedDelay = 1000, initialDelay = 500)
+    //public void send(String target, byte[] message) {
+       // this.template.convertAndSend("amq.topic", target, message);
+        //System.out.println("Sent:" + new String(message));
+    //}
 }
