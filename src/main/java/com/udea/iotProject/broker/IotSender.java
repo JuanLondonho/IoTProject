@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class IotSender {
 
-    @Autowired
-    private RabbitTemplate template;
+    RabbitTemplate template;
 
 
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
