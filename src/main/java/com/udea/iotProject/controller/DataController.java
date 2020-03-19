@@ -54,7 +54,7 @@ public class DataController {
     }
 
     @PostMapping(path="/turnOnDevices")
-    public void sendMessage() {
+    public void turnOnDevices(@RequestParam (name="message") String message) {
         dataService.sendMessage("-99");
 
     }
