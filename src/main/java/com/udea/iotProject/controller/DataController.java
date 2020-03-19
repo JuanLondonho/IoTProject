@@ -54,8 +54,9 @@ public class DataController {
     }
 
     @PostMapping(path="/turnOnDevices")
-    public void turnOnDevices(@RequestParam (name="message") String message) {
+    public String turnOnDevices() {
         dataService.sendMessage("-99");
+        return "Enceder dispositivos";
 
     }
 
@@ -63,12 +64,13 @@ public class DataController {
     public void sendMessage(@RequestParam (name="message") String message) {
        dataService.sendMessage(message);
 
+
   	}
 
     @PostMapping(path="/sendPrivateMessage")
-    public void sendPrivateMessage(@RequestParam(name="DeviceName") String device, @RequestParam (name="message") String message) {
+    public String  sendPrivateMessage(@RequestParam(name="DeviceName") String device, @RequestParam (name="message") String message) {
         dataService.sendPrivateMessage(device ,message);
-
+        return "Enviar Mensaje privado";
     }
 
   	@GetMapping(path = "/currentStatus")
